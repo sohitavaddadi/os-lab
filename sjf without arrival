@@ -1,0 +1,54 @@
+# include<stdio.h>
+int main()
+{
+	int n, temp, avgw = 0, avgt = 0,pos;
+	int bt[20];
+	int tat[20];
+	int wt[20];
+	int p[20];
+
+	printf("enter the no of process \n");
+	scanf("%d", &n);
+
+	printf("enter the burst around time \n");
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%d", &bt[i]);
+		p[i] = i+1;
+
+	}
+	for(int i = 0; i < n-1; i++)
+	{
+		pos = i;
+		for(int j = i+1; j < n; j++)
+
+		{
+			if(bt[j] < bt[pos])
+			{
+				pos = j;
+			}
+			temp = bt[i];
+	    bt[i] = bt[pos];
+			bt[pos] = temp;
+		  temp = p[i];
+      p[i] = p[pos];
+      p[pos] = temp;
+		}
+	}
+	wt[0] = 0;
+	for(int i = 1; i<=n; i++)
+	{
+		wt[i] = wt[i-1]+bt[i-1];
+		tat[i-1] = wt[i-1]+bt[i-1];
+	}
+	printf("process		burst_time	waiting_time	turn_around_time\n");
+	for (int i = 0; i < n; i++)
+	{
+		printf("p[%d]	    %d	             %d	              %d \n", i, bt[i],wt[i],tat[i]);
+		avgw = avgw + wt[i];
+		avgt = avgt + tat[i];
+	}
+	printf("the average_waiting_time is %d\n", avgw/n);
+	printf("the average_turn_around_time is %d\n", avgt/n);
+	return 0;
+}
